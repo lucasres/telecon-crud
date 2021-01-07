@@ -9,3 +9,10 @@ def bad_request(error):
         response=json.dumps({'errors': error.messages}),
         status=400
     )
+
+def single_response(data, status = 200):
+    return Response(
+        mimetype="application/json",
+        response=json.dumps(data),
+        status=status
+    )
