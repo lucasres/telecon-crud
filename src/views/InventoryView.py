@@ -26,6 +26,9 @@ def create():
 
 @inventory_blueprint.route('/', methods=['GET'])
 def index():
+    """
+    Return list of inventory entities
+    """
     db_collections = Inventory.query.all()
     ser_collection = inventory_serializer.dump(db_collections, many=True)
     return collection_response(ser_collection)
