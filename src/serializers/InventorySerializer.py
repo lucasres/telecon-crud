@@ -4,7 +4,7 @@ from src.models.Inventory import Inventory
 from marshmallow.validate import ValidationError
 
 class InventorySerializer(Schema):
-    id = fields.Int()
+    id = fields.Int(dump_only=True)
     value = fields.Str(required=True)
     monthyPrice = fields.Float(
         required=True,
@@ -22,8 +22,12 @@ class InventorySerializer(Schema):
 
     @validates('value')
     def validate_unique_value(self, value):
-        exists = Inventory.query.filter_by(value=value).count()
-        if(exists):
+        #base query
+        qs = Inventory.query.filter(Inventory.value==value)
+        #if pass id in context, exclude id from query
+        if(self.context.get('id')):
+            qs = qs.filter(Inventory.id != self.context['id'])
+        if(qs.count()):
             raise ValidationError('The value is need unique')
 
 inventory_serializer = InventorySerializer()

@@ -43,3 +43,24 @@ def retrive(inventory_id):
         ser_instance = inventory_serializer.dump(instance)
         return single_response(ser_instance)
     return not_fount()
+
+@inventory_blueprint.route('/<inventory_id>', methods=['PUT'])
+def update(inventory_id):
+    """
+    Make update data of one instance
+    """
+    instance = Inventory.query.filter_by(id=inventory_id).first()
+    data_request = request.get_json()
+    if(instance):
+        #validate data from request
+        try:
+            inventory_serializer.context = {'id': inventory_id}
+            data = inventory_serializer.load(data_request)
+        except ValidationError as error:
+            return bad_request(error)
+        #make update of fields
+        instance.update(data)
+        ser_instance = inventory_serializer.dump(instance)
+        return single_response(ser_instance)
+    return not_fount()
+        

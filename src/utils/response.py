@@ -11,6 +11,9 @@ def bad_request(error):
     )
 
 def single_response(data, status = 200):
+    """
+    Response data in single json
+    """
     return Response(
         mimetype    = "application/json",
         response    = json.dumps(data),
@@ -18,6 +21,9 @@ def single_response(data, status = 200):
     )
 
 def collection_response(data, status = 200):
+    """
+    Response data into result field
+    """
     return Response(
         mimetype    = "application/json",
         response    = json.dumps({'result': data}),
@@ -25,6 +31,9 @@ def collection_response(data, status = 200):
     )
 
 def not_fount():
+    """
+    Response not found to client
+    """
     return Response(
         mimetype    = "application/json",
         response    = json.dumps({'errors': 'Not found entity'}),

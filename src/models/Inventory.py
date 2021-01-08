@@ -33,3 +33,9 @@ class Inventory(db.Model):
         """
         db.session.add(self)
         db.session.commit()
+    
+    def update(self, data):
+        #set all new values
+        for field, value in data.items():
+            setattr(self, field, value)
+        db.session.commit()
