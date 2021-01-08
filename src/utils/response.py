@@ -39,3 +39,12 @@ def not_fount():
         response    = json.dumps({'errors': 'Not found entity'}),
         status      = 404
     )
+
+def no_content():
+    """
+    Response no content to client
+    """
+    return Response(
+        mimetype    = "application/json",
+        status      = 204
+    )

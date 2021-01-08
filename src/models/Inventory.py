@@ -35,7 +35,17 @@ class Inventory(db.Model):
         db.session.commit()
     
     def update(self, data):
+        """
+        Update data of instance
+        """
         #set all new values
         for field, value in data.items():
             setattr(self, field, value)
+        db.session.commit()
+    
+    def delete(self):
+        """
+        Delete enetity
+        """
+        db.session.delete(self)
         db.session.commit()

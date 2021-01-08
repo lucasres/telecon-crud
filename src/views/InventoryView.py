@@ -1,7 +1,7 @@
 from flask import request, json, Response, Blueprint
 from src.models.Inventory import Inventory
 from src.serializers.InventorySerializer import inventory_serializer
-from src.utils.response import bad_request, single_response, collection_response, not_fount
+from src.utils.response import bad_request, single_response, collection_response, not_fount, no_content
 from marshmallow.exceptions import ValidationError
 
 inventory_blueprint = Blueprint('inventory', __name__)
@@ -63,4 +63,14 @@ def update(inventory_id):
         ser_instance = inventory_serializer.dump(instance)
         return single_response(ser_instance)
     return not_fount()
-        
+
+@inventory_blueprint.route('/<inventory_id>', methods=['DELETE'])
+def delete(inventory_id):
+    """
+    Remove one enttity from database
+    """
+    instance = Inventory.query.filter_by(id=inventory_id).first()
+    if(instance):
+        instance.delete()
+        return no_content()
+    return not_fount()
