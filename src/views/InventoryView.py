@@ -1,7 +1,7 @@
 from flask import request, json, Response, Blueprint
 from src.models.Inventory import Inventory
 from src.serializers.InventorySerializer import inventory_serializer
-from src.utils.response import bad_request, single_response, collection_response, not_fount, no_content
+from src.utils.response import bad_request, single_response, paginate, not_fount, no_content
 from marshmallow.exceptions import ValidationError
 
 inventory_blueprint = Blueprint('inventory', __name__)
@@ -29,9 +29,7 @@ def index():
     """
     Return list of inventory entities
     """
-    db_collections = Inventory.query.all()
-    ser_collection = inventory_serializer.dump(db_collections, many=True)
-    return collection_response(ser_collection)
+    return paginate(Inventory, inventory_serializer)
 
 @inventory_blueprint.route('/<inventory_id>', methods=['GET'])
 def retrive(inventory_id):
