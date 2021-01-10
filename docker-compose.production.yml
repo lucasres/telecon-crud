@@ -1,0 +1,36 @@
+version: "3.5"
+
+services: 
+    web:
+        build: .
+        container_name: web-api
+        command: "bash -c 'python manage.py db upgrade && python run.py'"
+        restart: on-failure:10
+        expose: 
+            - 5000
+        volumes: 
+            - .:/app
+    postgres:
+        container_name: web-postgres
+        image: postgres:12.4
+        ports:
+            - 5432:5432
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=test
+        restart: on-failure:10
+
+    nginx:
+        container_name: web-nginx
+        image: nginx:1.15.8
+        ports: 
+            - 80:80
+        volumes: 
+            - ./nginx:/etc/nginx/conf.d/
+        restart: on-failure:10
+
+volumes: 
+    db-data:
