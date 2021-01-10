@@ -4,7 +4,7 @@ services:
     web:
         build: .
         container_name: web-api
-        command: "python run.py"
+        command: "bash -c 'python manage.py db upgrade && python run.py'"
         restart: on-failure:10
         ports: 
             - 5000:5000
