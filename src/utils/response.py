@@ -63,6 +63,7 @@ def paginate(query, serializer, size = 5):
         query = query.query
     #current page
     page = int(request.args.get('page')) if request.args.get('page') else 1
+    page = page if page > 0 else 1
     #query of pagination
     paginate_query = query.limit(size).offset((page - 1) * size)
     #serialize response data
