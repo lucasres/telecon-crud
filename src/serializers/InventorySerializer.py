@@ -2,10 +2,13 @@ from marshmallow import fields, Schema, validates
 from marshmallow.validate import Range
 from src.models.Inventory import Inventory
 from marshmallow.validate import ValidationError
+from src.utils.validators import ValueFormat
 
 class InventorySerializer(Schema):
     id = fields.Int(dump_only=True)
-    value = fields.Str(required=True)
+    value = fields.Str(required=True, validate=[
+        ValueFormat(),
+    ])
     monthyPrice = fields.Float(
         required=True,
         validate=[

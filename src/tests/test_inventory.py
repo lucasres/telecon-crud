@@ -9,13 +9,13 @@ import random
 class TestSome(unittest.TestCase):
     app = None
     correct_data = {
-        "value"         : "86 900000135",
+        "value"         : "+55 86 90000-0002",
         "monthyPrice"   : 15,
         "currency"      : "R$",
         "setupPrice"    : 25,
     }
     update_data = {
-        "value"         : "86 9005",
+        "value"         : "+55 86 90000-0003",
         "monthyPrice"   : 50,
         "currency"      : "U$",
         "setupPrice"    : 25,
@@ -37,7 +37,7 @@ class TestSome(unittest.TestCase):
         self.app.app_context().push()
         #create instance for tests
         self.instance = Inventory(**{
-            "value"         : "86 90" + str(time.time()),
+            "value"         : "+55 86 90000-0000",
             "monthyPrice"   : 15,
             "currency"      : "R$",
             "setupPrice"    : 25,
@@ -70,5 +70,5 @@ class TestSome(unittest.TestCase):
 
     def test_can_delete(self):
         uri = self.generate_uri()
-        response = self.app.test_client().delete(uri, json=self.update_data)
+        response = self.app.test_client().delete(uri)
         self.assertEqual(response.status_code, 204)
