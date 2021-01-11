@@ -36,7 +36,7 @@ def retrive(inventory_id):
     """
     Retrive one instance by id
     """
-    instance = Inventory.query.filter_by(id=inventory_id).first()
+    instance = Inventory.find(inventory_id)
     if(instance):
         ser_instance = inventory_serializer.dump(instance)
         return single_response(ser_instance)
@@ -47,7 +47,7 @@ def update(inventory_id):
     """
     Make update data of one instance
     """
-    instance = Inventory.query.filter_by(id=inventory_id).first()
+    instance = Inventory.find(inventory_id)
     data_request = request.get_json()
     if(instance):
         #validate data from request
@@ -67,7 +67,7 @@ def delete(inventory_id):
     """
     Remove one enttity from database
     """
-    instance = Inventory.query.filter_by(id=inventory_id).first()
+    instance = Inventory.find(inventory_id)
     if(instance):
         instance.delete()
         return no_content()
