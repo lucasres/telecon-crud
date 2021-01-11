@@ -46,6 +46,9 @@ class TestSome(unittest.TestCase):
     
     def tearDown(self):
         self.instance.delete()
+    
+    def generate_uri(self):
+        return '/api/v1/inventory/' + str(self.instance.id)
 
     def test_can_list(self):
         response = self.app.test_client().get('/api/v1/inventory/')
@@ -61,6 +64,11 @@ class TestSome(unittest.TestCase):
         instance.delete()
     
     def test_can_edit(self):
-        uri = '/api/v1/inventory/' + str(self.instance.id)
+        uri = self.generate_uri()
         response = self.app.test_client().put(uri, json=self.update_data)
         self.assertEqual(response.status_code, 200)
+
+    def test_can_delete(self):
+        uri = self.generate_uri()
+        response = self.app.test_client().delete(uri, json=self.update_data)
+        self.assertEqual(response.status_code, 204)

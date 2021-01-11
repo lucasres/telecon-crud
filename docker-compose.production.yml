@@ -4,7 +4,7 @@ services:
     web:
         build: .
         container_name: web-api
-        command: "bash -c 'python manage.py db upgrade && python run.py'"
+        command: "bash -c 'python manage.py db upgrade && gunicorn -b 0.0.0.0:5000 run:app'"
         restart: on-failure:10
         expose: 
             - 5000
