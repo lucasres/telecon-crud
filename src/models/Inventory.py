@@ -49,3 +49,7 @@ class Inventory(db.Model):
         """
         db.session.delete(self)
         db.session.commit()
+    
+    @classmethod
+    def find(cls, id):
+        return cls.query.filter_by(id=id).first()

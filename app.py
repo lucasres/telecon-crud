@@ -20,3 +20,7 @@ def create_app():
     #handlers
     app.register_error_handler(500, handle_internal_server_error)
     return app
+
+def create_test_app():
+    app = create_app()
+    return app
